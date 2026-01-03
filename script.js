@@ -20,13 +20,13 @@ class Application {
     workouts = []
     selectedCoords;
     isPinning = false;
-
+    static #ALLOW=Symbol("AllowInstantiation")
     static startApplication() {
-        new Application();
+        new Application(Application.#ALLOW);
     }
 
-    constructor() {
-        if(new.target===Application){
+    constructor(token) {
+        if(token!==Application.#ALLOW){
             console.error("ERROR: Unable to instantiate Application Class. Use Application.startApplication() instead.")
             throw new Error("Error: Instantiating Class Application")
         }
@@ -155,6 +155,7 @@ class Application {
                     }
                     this.#addWorkout();
                     this.#formAction();
+                    this.#resetInputTags()
                 }
                 if (e.key === 'Escape') {
                     e.preventDefault();
